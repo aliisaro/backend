@@ -8,18 +8,34 @@ const createToken = (_id) => {
 
 // register a user
 const registerUser = async (req, res) => {
-    const { username, email, hashedPassword } = req.body;
+    const { email, password, firstName, lastName, phoneNumber, role } = req.body;
   
     try {
-      const user = await User.register(username, email, hashedPassword);
+      const user = await User.register(email, password, firstName, lastName, phoneNumber, role);
   
       // create a token
       const token = createToken(user._id);
   
-      res.status(200).json({ message:"Sign up successful", username, email, token });
+      res.status(201).json({ message:"Register successful", email, token });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
   };
 
-module.exports = {registerUser};
+//login user
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      const user = await User.login(email, password);
+  
+      // create a token
+      const token = createToken(user._id);
+  
+      res.status(200).json({ message:"Login successful", email, token });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  };
+
+module.exports = {registerUser, loginUser};

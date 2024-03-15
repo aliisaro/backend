@@ -15,6 +15,10 @@ const waterSchema = new Schema({
     type: String,
     required: true,
   },
+  user_id: { 
+    type: String, 
+    required: true
+  },
 });
 
 module.exports = mongoose.model("Water", waterSchema);
